@@ -18,6 +18,11 @@ const todoSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  author: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
 });
 
 export const Todo = mongoose.model("Todo", todoSchema);

@@ -1,4 +1,5 @@
 import { Todo } from "../models/todo.model.js";
+import { getTokenContents } from "../utils/getTokenContent.js";
 
 export const getAllTodos = async (req, res) => {
   try {
@@ -23,9 +24,12 @@ export const getTodoById = async (req, res) => {
 
 export const createTodo = async (req, res) => {
   const { title, description } = req.body;
+  const { accessToken } = req.cookies;
+  const { id } = getTokenContents(res, accessToken);
   const todo = new Todo({
     title,
     description,
+    author: id,
   });
   try {
     const savedTodo = await todo.save();
@@ -56,6 +60,21 @@ export const deleteTodo = async (req, res) => {
       return res.status(404).json({ message: "Todo not found" });
     }
     res.status(200).json({ message: "Todo deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const getTodosByUser = async (req, res) => {
+  try {
+    const { accessToken } = req.cookies;
+    const { id, email } = getTokenContents(res, accessToken);
+    const todos = await Todo.find({ author: id }).populate(
+      "author",
+      "name surname email"
+    );
+
+    res.status(200).json(todos);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
