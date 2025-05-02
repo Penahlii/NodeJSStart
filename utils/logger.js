@@ -4,7 +4,6 @@ import path from "path";
 const logDir = path.resolve("logs");
 const logFilePath = path.join(logDir, "log.txt");
 
-// Ensure the 'logs' directory exists
 if (!fs.existsSync(logDir)) {
   fs.mkdirSync(logDir, { recursive: true });
 }
