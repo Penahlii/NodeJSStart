@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 import userRoutes from "./routes/users.route.js";
 import todoRoutes from "./routes/todos.route.js";
 import authRoutes from "./routes/auth.route.js";
+import feedbackRoutes from "./routes/feedback.route.js";
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/todos", todoRoutes);
+app.use("/api/feedbacks", feedbackRoutes);
 
 const connectDB = async () => {
   try {
@@ -35,11 +37,3 @@ app.listen(process.env.PORT, () => {
   console.log(`Server running on http://localhost:${process.env.PORT}`);
   connectDB();
 });
-
-// User Endpoints
-// http://localhost:3000/api/users - GET all users
-// http://localhost:3000/api/users/user/:id - GET user by id
-// http://localhost:3000/api/users/add - POST add user
-// http://localhost:3000/api/users/edit/:id - PUT edit user by id
-// http://localhost:3000/api/users/patch/:id - PATCH edit user by id
-// http://localhost:3000/api/users/delete/:id - DELETE user by id
